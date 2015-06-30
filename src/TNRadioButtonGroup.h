@@ -18,8 +18,12 @@ typedef enum : NSUInteger {
     TNRadioButtonGroupLayoutVertical
 } TNRadioButtonGroupLayout;
 
+
+@protocol TNRadioButtonGroupDelegate;
+
 @interface TNRadioButtonGroup : UIView <TNRadioButtonDelegate>
 
+@property (weak, nonatomic) id<TNRadioButtonGroupDelegate> delegate;
 @property (nonatomic, copy) NSString *identifier;
 @property (nonatomic) CGPoint position;
 @property (nonatomic) NSInteger marginBetweenItems;
@@ -34,4 +38,10 @@ typedef enum : NSUInteger {
 - (instancetype)initWithRadioButtonData:(NSArray *)radioButtonData layout:(TNRadioButtonGroupLayout)layout;
 - (void)create;
 - (void)update;
+@end
+
+@protocol TNRadioButtonGroupDelegate <NSObject>
+
+- (void)buttonGroup:(TNRadioButtonGroup *)group didSelectRadioButton:(TNRadioButton *)button;
+
 @end

@@ -8,6 +8,9 @@
 
 #import "MainView.h"
 
+@interface MainView ()<TNRadioButtonGroupDelegate>
+@end
+
 @implementation MainView
 
 - (id)initWithFrame:(CGRect)frame {
@@ -57,8 +60,9 @@
     [self.sexGroup create];
     self.sexGroup.position = CGPointMake(25, 175);
     [self addSubview:self.sexGroup];
+    self.sexGroup.delegate = self;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sexGroupUpdated:) name:SELECTED_RADIO_BUTTON_CHANGED object:self.sexGroup];
+   
 
 	// show how update data works...
 
@@ -98,12 +102,11 @@
     self.hobbiesGroup.identifier = @"Hobbies group";
     [self.hobbiesGroup create];
     self.hobbiesGroup.position = CGPointMake(25, 265);
+    self.hobbiesGroup.delegate = self;
 
     [self addSubview:self.hobbiesGroup];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hobbiesGroupUpdated:) name:SELECTED_RADIO_BUTTON_CHANGED object:self.hobbiesGroup];
-
-	// show how update data works...
+   	// show how update data works...
 
     programmingData.borderColor = [UIColor redColor];
     programmingData.rectangleColor = [UIColor redColor];
@@ -131,10 +134,11 @@
     self.temperatureGroup.identifier = @"Temperature group";
     [self.temperatureGroup create];
     self.temperatureGroup.position = CGPointMake(25, 400);
+    self.temperatureGroup.delegate = self;
     
     [self addSubview:self.temperatureGroup];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(temperatureGroupUpdated:) name:SELECTED_RADIO_BUTTON_CHANGED object:self.temperatureGroup];
+    
 }
 
 - (void)sexGroupUpdated:(NSNotification *)notification {
@@ -149,10 +153,11 @@
     NSLog(@"[MainView] Temperature group updated to %@", self.temperatureGroup.selectedRadioButton.data.identifier);
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:SELECTED_RADIO_BUTTON_CHANGED object:self.sexGroup];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:SELECTED_RADIO_BUTTON_CHANGED object:self.hobbiesGroup];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:SELECTED_RADIO_BUTTON_CHANGED object:self.temperatureGroup];
+
+#pragma mark - button group delegate
+
+- (void)buttonGroup:(TNRadioButtonGroup *)group didSelectRadioButton:(TNRadioButton *)button {
+    NSLog(@"callback using delegation %@", button.data.identifier);
 }
 
 @end

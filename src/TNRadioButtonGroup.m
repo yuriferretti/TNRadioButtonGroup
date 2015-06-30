@@ -136,6 +136,7 @@ NSString *const SELECTED_RADIO_BUTTON_CHANGED = @"selectedRadioButtonChanged";
         _selectedRadioButton = selectedRadioButton;
         
         [[NSNotificationCenter defaultCenter] postNotificationName:SELECTED_RADIO_BUTTON_CHANGED object:self];
+        [self.delegate buttonGroup:self didSelectRadioButton:_selectedRadioButton];
     }
     
 }
